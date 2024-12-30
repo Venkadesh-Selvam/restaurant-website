@@ -1,0 +1,14 @@
+$primary: red;
+$secondary: #1ba098;
+$tertiary: #deb992;
+
+.custom-navbar {
+  background-color: $primary !important;
+  color: $secondary !important;
+}
+
+.home-page {
+  background-color: $primary !important;
+}
+
+@import "bootstrap/scss/bootstrap";

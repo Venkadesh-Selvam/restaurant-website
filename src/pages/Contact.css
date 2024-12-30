@@ -1,0 +1,4 @@
+.contact-page header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../assets/Desktop-Free-Food-Images.jpg);
+    height: 100vh;
+}
