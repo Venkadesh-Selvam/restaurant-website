@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { Link, NavLink, useNavigate } from "react-router-dom";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { FaStarAndCrescent } from "react-icons/fa6";
-import "../App.css";
 import { NavDropdown } from "react-bootstrap";
 
+import { FaStarAndCrescent } from "react-icons/fa6";
+
+import "./Header.css";
+
+import Faq from "./Faq";
+
+// Creating Array for Menu Category Lists
 const categoryArray = [
   "Beef",
   "Breakfast",
@@ -26,9 +33,14 @@ const categoryArray = [
 
 function Header() {
   const navigate = useNavigate();
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
 
   const handleChange = (selectedCategory) => {
     navigate(`/category/${selectedCategory}`);
+  };
+
+  const handleFaq = () => {
+    setIsFaqOpen(!isFaqOpen);
   };
 
   return (
@@ -38,9 +50,8 @@ function Header() {
           <Navbar.Brand>
             <Link
               to="/"
-              className="navbar-brand text-dark fw-bold text-uppercase"
+              className="navbar-brand text-dark fw-bold text-uppercase cursor-pointer"
             >
-              {" "}
               <FaStarAndCrescent style={{ color: "purple" }} /> Selva
               <span style={{ color: "purple" }}>Nila</span>
             </Link>
@@ -91,6 +102,25 @@ function Header() {
               </NavLink>
             </Nav>
           </Navbar.Collapse>
+          <NavDropdown
+            title={
+              <button
+                onClick={handleFaq}
+                className="btn btn-link text-success text-uppercase text-decoration-none py-2"
+                style={{ border: "none", background: "none" }}
+              >
+                FAQ
+              </button>
+            }
+            to="/home"
+            className="faqDropdown"
+          >
+            {isFaqOpen && (
+              <div className="scrollFaq">
+                <Faq />
+              </div>
+            )}
+          </NavDropdown>
         </Container>
       </Navbar>
     </div>

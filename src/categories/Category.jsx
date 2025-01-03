@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Pagination from "../components/Pagination";
 
 function Category() {
   const { category } = useParams();
   const [fetchData, setFetchData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const dishPerPage = 8;
 
   useEffect(() => {
     if (category) {
@@ -18,20 +21,24 @@ function Category() {
     }
   }, [category]);
 
+  const indexOfLastDish = currentPage * dishPerPage;
+  const indexOfFirstDish = indexOfLastDish - dishPerPage;
+  const currentDishes = fetchData.slice(indexOfFirstDish, indexOfLastDish);
+
   return (
-    <div className="beef-page bg-body-secondary mt-5 p-8 py-2">
+    <div className=" bg-body-secondary mt-5 p-8 py-2 shadow">
       <div className="h-100 min-vh-100 d-flex align-items-center text-light shadow">
         <div className="container d-flex flex-column align-items-center">
           <h2 className="fs-1 mb-5 text-black text-uppercase fw-semibold">
-            {category}
+            {category || "Category"}
           </h2>
-          <div className="row mb-5 w-100">
+          <div className="row mb-5 w-100 d-flex align-items-center justify-content-center">
             <div className="col-lg-12 mb-5 d-flex flex-column align-items-center">
               <ul
-                className="d-flex flex-wrap justify-content-justify list-unstyled"
+                className="d-flex flex-wrap justify-content-center list-unstyled"
                 style={{ gap: "25px" }}
               >
-                {fetchData.map((list) => (
+                {currentDishes.map((list) => (
                   <li
                     key={list.idMeal}
                     className=" items-list text-center"
@@ -54,8 +61,18 @@ function Category() {
                 ))}
               </ul>
             </div>
+
+            {fetchData.length > dishPerPage && (
+              <div className="d-flex justify-content-center align-items-center">
+                <Pagination
+                  dishPerPage={dishPerPage}
+                  totalDishes={fetchData.length}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                />
+              </div>
+            )}
           </div>
-          
         </div>
       </div>
     </div>

@@ -6,16 +6,34 @@ import "./custom.scss";
 function Home() {
   const [fetchData, setFetchData] = useState([]);
 
+  const [favDish, setFavDish] = useState([]);
+
   useEffect(() => {
-    fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log({ data });
-        if (data.categories) {
-          setFetchData(data.categories);
-        }
-      })
-      .catch((error) => console.error(error));
+    const favDishes = JSON.parse(localStorage.getItem("favDish"));
+    if (favDishes) {
+      setFavDish(favDishes);
+    }
+  }, []);
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("setFetchData"));
+    if (savedData) {
+      setFetchData(savedData);
+    } else {
+      fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log({ data });
+          if (data.categories) {
+            setFetchData(data.categories);
+            localStorage.setItem(
+              "setFetchData",
+              JSON.stringify(data.categories)
+            );
+          }
+        })
+        .catch((error) => console.error(error));
+    }
   }, []);
 
   return (
